@@ -34,8 +34,22 @@ export default function Navbar({ activeTab, setActiveTab, darkMode, setDarkMode 
             className="flex items-center gap-2 cursor-pointer group"
             id="navbar-branding-logo"
           >
-            <div className="bg-sky-blue p-2 rounded-xl text-white shadow-md shadow-sky-blue/20 transition-all group-hover:scale-105">
-              <Camera className="w-5 h-5 md:w-6 h-6 stroke-[2]" />
+            <div className="bg-sky-blue p-2 rounded-xl text-white shadow-md shadow-sky-blue/20 transition-all group-hover:scale-105 flex items-center justify-center">
+              <svg 
+                viewBox="0 0 100 100" 
+                className="w-5 h-5 md:w-6 h-6 fill-current" 
+                id="branding-airplane-logo-svg"
+              >
+                {/* Loop trail */}
+                <path 
+                  d="M 32,29 C 14,41 12,71 29,86 C 46,101 76,99 87,79 C 97,59 87,38 72,28 C 68,26 63,25 58,25 C 64,28 68,31 71,36 C 79,48 78,66 69,76 C 59,86 42,86 31,76 C 24,68 23,55 28,45 C 31,40 35,36 39,33 Z"
+                  className="opacity-90"
+                />
+                {/* Sleek jet plane */}
+                <g transform="translate(61, 25) rotate(45)">
+                  <path d="M 0,-14 C 0.8,-11 1.5,-7 1.5,-3 L 15,3 C 15,4 14,4.8 13.2,4.8 L 1.5,3 L 1.5,8.8 L 5,11.5 C 5,12 4.4,12.5 3.5,12.5 L 0,11 L -3.5,12.5 C -4.4,12.5 -5,12 -5,11.5 L -1.5,8.8 L -1.5,3 L -13.2,4.8 C -14,4.8 -15,4 -15,3 L -1.5,-3 C -1.5,-7 -0.8,-11 0,-14 Z" />
+                </g>
+              </svg>
             </div>
             <div>
               <span className="font-serif text-lg md:text-2xl font-bold tracking-tight text-dark-gray block">
