@@ -212,41 +212,99 @@ export default function App() {
               </div>
 
               <div className="grid md:grid-cols-3 gap-6">
-                {destinations.slice(0, 3).map((dest) => (
-                  <div
-                    key={dest.id}
-                    onClick={() => handleSelectDestination(dest.id)}
-                    className="bg-white rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="aspect-[4/3] w-full relative overflow-hidden bg-neutral-150">
-                        <img
-                          src={dest.photos[0]}
-                          alt={dest.name}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <span className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm text-sky-blue font-mono text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">
-                          {dest.country}
-                        </span>
-                      </div>
-                      <div className="p-5">
-                        <span className="text-[10px] font-mono text-neutral-400 block uppercase font-medium">{dest.continent}</span>
-                        <h3 className="font-serif text-lg font-bold text-dark-gray leading-tight mt-1 group-hover:text-sky-blue transition-colors">
-                          {dest.name}
-                        </h3>
-                        <p className="text-xs text-neutral-500 mt-2 line-clamp-3 leading-relaxed">
-                          {dest.overview}
-                        </p>
-                      </div>
-                    </div>
+                {destinations.slice(0, 3).map((dest) => {
+                  const isMachuPicchu = dest.id === 'machu-picchu-peru';
+                  const isKyoto = dest.id === 'kyoto-japan';
+                  const isSantorini = dest.id === 'santorini-greece';
+                  
+                  return (
+                    <div
+                      key={dest.id}
+                      onClick={() => handleSelectDestination(dest.id)}
+                      className="bg-white rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="aspect-[3/4] w-full relative overflow-hidden bg-neutral-900">
+                          <img
+                            src={dest.photos[0]}
+                            alt={dest.name}
+                            referrerPolicy="no-referrer"
+                            className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${
+                              isMachuPicchu
+                                ? 'contrast-[1.2] brightness-[0.82] saturate-[1.1] grayscale-[5%] sepia-[4%] hover:brightness-75'
+                                : 'brightness-90 group-hover:brightness-75'
+                            }`}
+                          />
+                          
+                          {/* Elegant Vintage Travel Poster Text Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 flex flex-col justify-end p-6 text-center text-white">
+                            {isMachuPicchu && (
+                              <div className="space-y-0.5 animate-fadeIn">
+                                <p className="text-[10px] font-sans font-bold tracking-[0.32em] text-neutral-300 uppercase leading-none mb-1">
+                                  A TREK BACK
+                                </p>
+                                <h4 className="text-3xl md:text-4xl font-serif font-black tracking-wide text-white leading-none uppercase">
+                                  MACHU
+                                </h4>
+                                <h4 className="text-3xl md:text-4xl font-serif font-black tracking-wide text-white leading-none uppercase mb-2">
+                                  PICHU
+                                </h4>
+                                <p className="text-xs font-sans font-semibold tracking-[0.4em] text-sand-beige uppercase leading-none">
+                                  PERU
+                                </p>
+                              </div>
+                            )}
 
-                    <div className="p-5 pt-0 border-t border-neutral-50 flex items-center justify-between text-xs font-medium text-neutral-400">
-                      <span>Best time: {dest.bestTime.split(' (')[0]}</span>
-                      <span className="text-sky-blue hover:underline">Read Info</span>
+                            {isKyoto && (
+                              <div className="space-y-0.5">
+                                <p className="text-[10px] font-sans font-bold tracking-[0.32em] text-neutral-300 uppercase leading-none mb-1">
+                                  TEMPLE TRAILS
+                                </p>
+                                <h4 className="text-3xl md:text-4xl font-serif font-black tracking-wide text-white leading-none uppercase mb-2">
+                                  KYOTO
+                                </h4>
+                                <p className="text-xs font-sans font-semibold tracking-[0.4em] text-sand-beige uppercase leading-none">
+                                  JAPAN
+                                </p>
+                              </div>
+                            )}
+
+                            {isSantorini && (
+                              <div className="space-y-0.5">
+                                <p className="text-[10px] font-sans font-bold tracking-[0.32em] text-neutral-300 uppercase leading-none mb-1">
+                                  CALDERA CLIFFS
+                                </p>
+                                <h4 className="text-3xl md:text-4xl font-serif font-black tracking-wide text-white leading-none uppercase">
+                                  SANTO
+                                </h4>
+                                <h4 className="text-3xl md:text-4xl font-serif font-black tracking-wide text-white leading-none uppercase mb-2">
+                                  RINI
+                                </h4>
+                                <p className="text-xs font-sans font-semibold tracking-[0.4em] text-sand-beige uppercase leading-none">
+                                  GREECE
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="p-5">
+                          <span className="text-[10px] font-mono text-neutral-400 block uppercase font-medium">{dest.continent}</span>
+                          <h3 className="font-serif text-lg font-bold text-dark-gray leading-tight mt-1 group-hover:text-sky-blue transition-colors">
+                            {dest.name}
+                          </h3>
+                          <p className="text-xs text-neutral-500 mt-2 line-clamp-2 leading-relaxed">
+                            {dest.overview}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="p-5 pt-0 border-t border-neutral-50 flex items-center justify-between text-xs font-medium text-neutral-400">
+                        <span>Best time: {dest.bestTime.split(' (')[0]}</span>
+                        <span className="text-sky-blue hover:underline">Read Info</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
 
