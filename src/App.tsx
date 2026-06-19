@@ -11,6 +11,7 @@ import BlogSystem from './components/BlogSystem';
 import TravelResources from './components/TravelResources';
 import AboutMe from './components/AboutMe';
 import ContactMe from './components/ContactMe';
+import Lightfall from './components/Lightfall';
 
 import { Destination, BlogPost, ChecklistItem, BudgetItem, Comment } from './types';
 import {
@@ -365,14 +366,23 @@ export default function App() {
             </section>
 
             {/* 5. Custom Categories Grid */}
-            <section className="space-y-6">
-              <div className="text-center">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-blue">Interests</span>
-                <h2 className="text-2xl md:text-3xl font-serif text-dark-gray font-bold mt-1">Travel Categories</h2>
+            <section className="bg-neutral-900 border border-neutral-800 p-6 md:p-8 rounded-3xl relative overflow-hidden text-white shadow-xl space-y-6" id="home-categories-section">
+              {/* Subtle Dynamic Lightfall Interactive Backplane */}
+              <Lightfall 
+                count={35} 
+                speed={1.0} 
+                color="56, 189, 248" 
+                maxOpacity={0.20} 
+                maxWidth={1.1} 
+              />
+              
+              <div className="relative z-10 text-center">
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-sky-400 bg-sky-950/40 border border-sky-500/20 px-2.5 py-0.5 rounded">Interests</span>
+                <h2 className="text-2xl md:text-3xl font-serif text-white font-bold mt-2">Travel Categories</h2>
                 <p className="text-xs text-neutral-400 max-w-sm mx-auto mt-1">Filtering journals by specific travel focus streams.</p>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 relative z-10">
                 {[
                   { name: 'Adventure', icon: Globe, count: posts.filter(p => p.category === 'Adventure').length, desc: 'Summits & Wildlife' },
                   { name: 'Budget Travel', icon: Star, count: posts.filter(p => p.category === 'Budget Travel').length, desc: 'Island on a Shilling' },
@@ -387,14 +397,14 @@ export default function App() {
                       onClick={() => {
                         setActiveTab('blog');
                       }}
-                      className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center cursor-pointer group"
+                      className="bg-neutral-950/60 border border-neutral-800 p-5 rounded-2xl shadow-sm hover:border-sky-500/30 hover:shadow-sky-500/5 hover:-translate-y-0.5 transition-all text-center cursor-pointer group backdrop-blur-sm"
                     >
-                      <span className="p-3 bg-neutral-50 text-sky-blue rounded-xl mx-auto flex items-center justify-center w-12 h-12 mb-3 shadow-inner border border-neutral-100 group-hover:scale-105 transition-transform">
+                      <span className="p-3 bg-sky-950/40 border border-sky-400/20 text-sky-450 rounded-xl mx-auto flex items-center justify-center w-12 h-12 mb-3 shadow-inner group-hover:scale-110 group-hover:text-sky-400 transition-all duration-350">
                         <Icon className="w-5 h-5 stroke-[2]" />
                       </span>
-                      <h3 className="font-serif font-bold text-sm text-dark-gray leading-none">{cat.name}</h3>
-                      <p className="text-[10px] text-neutral-400 mt-1.5 leading-none">{cat.desc}</p>
-                      <span className="inline-block text-[9px] font-mono font-semibold bg-sky-blue/10 text-sky-blue px-2 py-0.5 rounded mt-3">
+                      <h3 className="font-serif font-bold text-sm text-white leading-none group-hover:text-sky-400 transition-colors">{cat.name}</h3>
+                      <p className="text-[10px] text-neutral-450 mt-1.5 leading-none">{cat.desc}</p>
+                      <span className="inline-block text-[9px] font-mono font-semibold bg-sky-950/40 border border-sky-400/20 text-sky-400 px-2 py-0.5 rounded mt-3">
                         {cat.count} Logs
                       </span>
                     </div>
@@ -404,24 +414,44 @@ export default function App() {
             </section>
 
             {/* 6. Travel Photography Grid */}
-            <section className="space-y-6">
-              <div>
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-blue">Visual Log</span>
-                <h2 className="text-2xl md:text-3xl font-serif text-dark-gray font-bold mt-1">Photography Log</h2>
+            <section className="bg-neutral-900 border border-neutral-800 p-6 md:p-8 rounded-3xl relative overflow-hidden text-white shadow-xl space-y-6" id="home-photo-gallery-section">
+              {/* Subtle Dynamic Lightfall Interactive Backplane */}
+              <Lightfall 
+                count={35} 
+                speed={1.2} 
+                color="56, 189, 248" 
+                maxOpacity={0.25} 
+                maxWidth={1.2} 
+              />
+              
+              <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <span className="text-xs font-mono font-bold uppercase tracking-widest text-sky-400 bg-sky-950/40 border border-sky-500/20 px-2.5 py-0.5 rounded">Visual Log</span>
+                  <h2 className="text-2xl md:text-3xl font-serif text-white font-bold mt-2">Photography Log</h2>
+                </div>
+                <button
+                  onClick={() => setActiveTab('about')}
+                  className="text-xs font-mono text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1.5 bg-neutral-950/40 hover:bg-neutral-950/60 transition-colors border border-sky-500/10 px-3 py-1.5 rounded-xl w-fit"
+                >
+                  <Camera className="w-4 h-4" /> Go to Gallery
+                </button>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10">
                 {PHOTO_GALLERY.slice(0, 4).map((img, idx) => (
-                  <div key={idx} className="aspect-square rounded-2xl overflow-hidden group relative bg-neutral-100 shadow-sm">
+                  <div 
+                    key={idx} 
+                    className="aspect-square rounded-2xl overflow-hidden group relative bg-neutral-950 border border-neutral-800 shadow-sm transition-all duration-300 hover:border-sky-500/25"
+                  >
                     <img
                       src={img.url}
                       alt={img.title}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out brightness-90 group-hover:brightness-75 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark-gray/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-end p-4 text-white">
-                      <span className="text-[10px] text-sky-blue font-bold font-mono tracking-wider block uppercase">{img.category}</span>
-                      <h4 className="font-serif font-bold text-sm leading-tight mt-0.5">{img.title}</h4>
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/95 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-350 flex flex-col justify-end p-4 text-white">
+                      <span className="text-[10px] text-sky-400 font-bold font-mono tracking-wider block uppercase">{img.category}</span>
+                      <h4 className="font-serif font-bold text-sm leading-tight mt-0.5 text-white">{img.title}</h4>
                       <p className="text-[9px] text-neutral-300 font-mono tracking-wide mt-1">{img.location}</p>
                     </div>
                   </div>

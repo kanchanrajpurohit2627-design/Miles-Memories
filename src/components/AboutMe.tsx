@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { User, Compass, Target, MapPin, Camera, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, Compass, Target, MapPin, Camera, Sparkles, Sliders, Zap, RotateCcw, Paintbrush } from 'lucide-react';
 import { PHOTO_GALLERY } from '../data';
 import Lightfall from './Lightfall';
 
@@ -15,6 +15,61 @@ export default function AboutMe() {
     { value: '120k+', label: 'Active Readers' },
     { value: '450k+', label: 'Shutter clicks' }
   ];
+
+  const [ambientColor, setAmbientColor] = useState('56, 189, 248');
+  const [ambientCount, setAmbientCount] = useState(60);
+  const [ambientSpeed, setAmbientSpeed] = useState(1.8);
+  const [ambientOpacity, setAmbientOpacity] = useState(0.40);
+  const [ambientWidth, setAmbientWidth] = useState(1.5);
+  const [selectedPreset, setSelectedPreset] = useState('sky');
+
+  const presets = [
+    { id: 'sky', name: 'Santorini Sky', rgb: '56, 189, 248', desc: 'Crisp cerulean trails matching coastal Aegean winds.' },
+    { id: 'gold', name: 'Kyoto Zen', rgb: '234, 179, 8', desc: 'Gentle golden light reminiscent of Fushimi twilight.' },
+    { id: 'aurora', name: 'Banff Aurora', rgb: '34, 197, 94', desc: 'Ethereal emerald streams of the alpine sky.' },
+    { id: 'orchid', name: 'Fuji Mystic', rgb: '168, 85, 247', desc: 'Deep violet stardust paths over snowy peaks.' },
+    { id: 'amber', name: 'Sahara Twilight', rgb: '249, 115, 22', desc: 'Warm amber trails cascading over evening dunes.' }
+  ];
+
+  const handleApplyPreset = (p: typeof presets[0]) => {
+    setSelectedPreset(p.id);
+    setAmbientColor(p.rgb);
+    if (p.id === 'sky') {
+      setAmbientCount(60);
+      setAmbientSpeed(1.8);
+      setAmbientOpacity(0.40);
+      setAmbientWidth(1.5);
+    } else if (p.id === 'gold') {
+      setAmbientCount(45);
+      setAmbientSpeed(1.1);
+      setAmbientOpacity(0.50);
+      setAmbientWidth(1.3);
+    } else if (p.id === 'aurora') {
+      setAmbientCount(85);
+      setAmbientSpeed(2.2);
+      setAmbientOpacity(0.35);
+      setAmbientWidth(1.6);
+    } else if (p.id === 'orchid') {
+      setAmbientCount(50);
+      setAmbientSpeed(1.4);
+      setAmbientOpacity(0.45);
+      setAmbientWidth(1.4);
+    } else if (p.id === 'amber') {
+      setAmbientCount(70);
+      setAmbientSpeed(1.9);
+      setAmbientOpacity(0.40);
+      setAmbientWidth(1.5);
+    }
+  };
+
+  const handleReset = () => {
+    setSelectedPreset('sky');
+    setAmbientColor('56, 189, 248');
+    setAmbientCount(60);
+    setAmbientSpeed(1.8);
+    setAmbientOpacity(0.40);
+    setAmbientWidth(1.5);
+  };
 
   return (
     <div className="space-y-10" id="about-me-master-container">
@@ -163,6 +218,225 @@ export default function AboutMe() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Dynamic Ambient Lightfall Canvas Studio */}
+      <div className="bg-neutral-900 border border-neutral-800 p-6 md:p-8 rounded-2xl shadow-xl space-y-6 relative overflow-hidden text-white" id="lightfall-studio-container">
+        {/* Dynamic Lightfall Canvas Simulation Viewport */}
+        <div className="absolute inset-0 z-0">
+          <Lightfall 
+            count={ambientCount} 
+            speed={ambientSpeed} 
+            color={ambientColor} 
+            maxOpacity={ambientOpacity} 
+            maxWidth={ambientWidth} 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/65 to-black/10 pointer-events-none" />
+        </div>
+
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-neutral-800 pb-5">
+          <div>
+            <span className="text-[10px] font-mono font-bold tracking-widest text-sky-400 uppercase bg-sky-950/40 border border-sky-400/20 px-2 py-0.5 rounded">
+              Aesthetic Atmosphere Engine
+            </span>
+            <h2 className="text-2xl font-serif font-bold tracking-tight mt-1">Lightfall Interactive Studio</h2>
+            <p className="text-xs text-neutral-400 mt-1">
+              Customize the fluid, canvas-driven stardust rain. Match your mood or destination.
+            </p>
+          </div>
+          <button 
+            onClick={handleReset}
+            className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white bg-neutral-800 hover:bg-neutral-750 px-3 py-1.5 rounded-lg border border-neutral-700/60 transition-all cursor-pointer"
+            title="Reset to default"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            Reset Defaults
+          </button>
+        </div>
+
+        {/* Studio Workspace Layout */}
+        <div className="grid md:grid-cols-12 gap-6 relative z-10">
+          
+          {/* Left Column: Preset cards */}
+          <div className="md:col-span-12 lg:col-span-5 space-y-3">
+            <h3 className="text-xs font-mono font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Paintbrush className="w-3.5 h-3.5 text-sky-400" />
+              Atmospheric Destination Presets
+            </h3>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2">
+              {presets.map((preset) => {
+                const isSelected = selectedPreset === preset.id;
+                return (
+                  <button
+                    key={preset.id}
+                    onClick={() => handleApplyPreset(preset)}
+                    className={`w-full text-left p-3 rounded-xl border transition-all duration-200 cursor-pointer flex items-center gap-3 ${
+                      isSelected 
+                        ? 'bg-neutral-800/95 border-sky-500/50 shadow-md shadow-sky-500/5' 
+                        : 'bg-neutral-950/35 border-neutral-800 hover:border-neutral-700 hover:bg-neutral-850/40'
+                    }`}
+                  >
+                    {/* Color Bulb indicator with custom shadow */}
+                    <span 
+                      className={`w-3 h-3 rounded-full shrink-0 block transition-transform ${isSelected ? 'scale-110' : 'scale-100'}`}
+                      style={{ 
+                        backgroundColor: `rgb(${preset.rgb})`,
+                        boxShadow: `0 0 10px rgb(${preset.rgb})`
+                      }}
+                    />
+                    <div>
+                      <h4 className={`text-xs font-serif font-bold leading-none ${isSelected ? 'text-sky-400' : 'text-white'}`}>
+                        {preset.name}
+                      </h4>
+                      <p className="text-[10px] text-neutral-400 line-clamp-1 mt-1 font-sans">
+                        {preset.desc}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Column: Custom controls */}
+          <div className="md:col-span-12 lg:col-span-7 bg-neutral-950/60 border border-neutral-800/80 p-5 rounded-2xl backdrop-blur-md space-y-5">
+            <h3 className="text-xs font-mono font-bold text-neutral-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Sliders className="w-3.5 h-3.5 text-sky-400" />
+              Precipitation Tuning Deck
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+              {/* Density Count control */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-mono text-neutral-300">
+                  <span className="flex items-center gap-1">Color Trails Density</span>
+                  <span className="text-sky-400 font-bold">{ambientCount} streams</span>
+                </div>
+                <input 
+                  type="range"
+                  min="10"
+                  max="120"
+                  step="5"
+                  value={ambientCount}
+                  onChange={(e) => {
+                    setAmbientCount(Number(e.target.value));
+                    setSelectedPreset('custom');
+                  }}
+                  className="w-full accent-sky-400 h-1 bg-neutral-800 rounded-lg cursor-pointer"
+                />
+                <p className="text-[9px] text-neutral-500 leading-none">Controls the volume of falling high-exposure rain threads.</p>
+              </div>
+
+              {/* Descent Velocity control */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-mono text-neutral-300">
+                  <span className="flex items-center gap-1">Descent Velocity</span>
+                  <span className="text-sky-400 font-bold">{ambientSpeed.toFixed(1)}x</span>
+                </div>
+                <input 
+                  type="range"
+                  min="0.5"
+                  max="4.0"
+                  step="0.1"
+                  value={ambientSpeed}
+                  onChange={(e) => {
+                    setAmbientSpeed(Number(e.target.value));
+                    setSelectedPreset('custom');
+                  }}
+                  className="w-full accent-sky-400 h-1 bg-neutral-800 rounded-lg cursor-pointer"
+                />
+                <p className="text-[9px] text-neutral-500 leading-none">Sets the gravitational speed multipliers for the cosmic stream.</p>
+              </div>
+
+              {/* Max Opacity control */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-mono text-neutral-300">
+                  <span>Aura Luminescence</span>
+                  <span className="text-sky-400 font-bold">{Math.round(ambientOpacity * 100)}%</span>
+                </div>
+                <input 
+                  type="range"
+                  min="0.1"
+                  max="0.9"
+                  step="0.05"
+                  value={ambientOpacity}
+                  onChange={(e) => {
+                    setAmbientOpacity(Number(e.target.value));
+                    setSelectedPreset('custom');
+                  }}
+                  className="w-full accent-sky-400 h-1 bg-neutral-800 rounded-lg cursor-pointer"
+                />
+                <p className="text-[9px] text-neutral-500 leading-none">Sets the maximum alpha opacity for the stream trail filaments.</p>
+              </div>
+
+              {/* Thread Width control */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-mono text-neutral-300">
+                  <span>Filament Thickness</span>
+                  <span className="text-sky-400 font-bold">{ambientWidth.toFixed(1)}px</span>
+                </div>
+                <input 
+                  type="range"
+                  min="0.5"
+                  max="3.5"
+                  step="0.1"
+                  value={ambientWidth}
+                  onChange={(e) => {
+                    setAmbientWidth(Number(e.target.value));
+                    setSelectedPreset('custom');
+                  }}
+                  className="w-full accent-sky-400 h-1 bg-neutral-800 rounded-lg cursor-pointer"
+                />
+                <p className="text-[9px] text-neutral-500 leading-none">Tuning the thickness of individual light particle trails.</p>
+              </div>
+            </div>
+
+            {/* Custom Color Palette Grid */}
+            <div className="border-t border-neutral-800 pt-4 space-y-2">
+              <h4 className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
+                Fine-tune RGB Hue
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { name: 'Sky Cerulean', rgb: '56, 189, 248' },
+                  { name: 'Jade Aurora', rgb: '34, 197, 94' },
+                  { name: 'Sunset Bronze', rgb: '234, 179, 8' },
+                  { name: 'Sahara Amber', rgb: '249, 115, 22' },
+                  { name: 'Crimson Ember', rgb: '239, 68, 68' },
+                  { name: 'Mystic Indigo', rgb: '99, 102, 241' },
+                  { name: 'Fuji Orchid', rgb: '168, 85, 247' },
+                  { name: 'Pure Astral Whisp', rgb: '255, 255, 255' }
+                ].map((colorObj) => {
+                  const isActive = ambientColor === colorObj.rgb;
+                  return (
+                    <button
+                      key={colorObj.name}
+                      onClick={() => {
+                        setAmbientColor(colorObj.rgb);
+                        setSelectedPreset('custom');
+                      }}
+                      className={`text-[9px] font-mono px-2.5 py-1 rounded-md border transition-all cursor-pointer flex items-center gap-1.5 ${
+                        isActive 
+                          ? 'bg-neutral-800/90 text-white font-bold' 
+                          : 'bg-neutral-900/40 text-neutral-450 border-neutral-800 hover:border-neutral-700 hover:text-white'
+                      }`}
+                      style={{ 
+                        borderColor: isActive ? `rgba(${colorObj.rgb}, 0.5)` : undefined,
+                        boxShadow: isActive ? `0 0 6px rgba(${colorObj.rgb}, 0.15)` : undefined
+                      }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `rgb(${colorObj.rgb})` }} />
+                      {colorObj.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
