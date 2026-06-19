@@ -6,6 +6,7 @@
 import React from 'react';
 import { User, Compass, Target, MapPin, Camera, Sparkles } from 'lucide-react';
 import { PHOTO_GALLERY } from '../data';
+import Lightfall from './Lightfall';
 
 export default function AboutMe() {
   const stats = [
@@ -120,31 +121,43 @@ export default function AboutMe() {
       </div>
 
       {/* Shutter Photography Gallery */}
-      <div className="bg-white p-6 md:p-8 rounded-2xl border border-neutral-100 shadow-sm space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-neutral-900 p-6 md:p-8 rounded-2xl border border-neutral-800 shadow-xl space-y-6 relative overflow-hidden text-white">
+        {/* Dynamic Lightfall Background */}
+        <Lightfall 
+          count={50} 
+          speed={1.5} 
+          color="56, 189, 248" 
+          maxOpacity={0.35} 
+          maxWidth={1.4} 
+        />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
           <div>
-            <h2 className="text-2xl font-serif text-dark-gray font-bold">The Shutter Gallery</h2>
-            <p className="text-neutral-450 text-xs mt-1">High-exposure landscapes captured across global expeditions.</p>
+            <h2 className="text-2xl font-serif text-white font-bold tracking-tight">The Shutter Gallery</h2>
+            <p className="text-neutral-400 text-xs mt-1">High-exposure landscapes captured across global expeditions.</p>
           </div>
-          <span className="text-xs text-sky-blue font-mono font-bold flex items-center gap-1.5 bg-sky-blue/10 px-2.5 py-1 rounded-full w-fit">
+          <span className="text-xs text-sky-400 font-mono font-bold flex items-center gap-1.5 bg-sky-950/40 border border-sky-400/20 px-3 py-1 rounded-full w-fit">
             <Camera className="w-4 h-4" /> Travel Shutter clicks
           </span>
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4" id="photo-gallery-master">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10" id="photo-gallery-master">
           {PHOTO_GALLERY.slice(0, 8).map((photo) => (
-            <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden group bg-neutral-100">
+            <div 
+              key={photo.id} 
+              className="relative aspect-square rounded-xl overflow-hidden group bg-neutral-950 border border-neutral-800/80 shadow-md hover:border-sky-500/30 transition-all duration-300 hover:shadow-sky-500/5"
+            >
               <img
                 src={photo.url}
                 alt={photo.title}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover transition-all duration-300 ease-out group-hover:blur-[2px] group-hover:scale-105"
+                className="w-full h-full object-cover transition-all duration-500 ease-out brightness-90 group-hover:brightness-75 group-hover:scale-105"
               />
-              <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/85 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-white select-none pointer-events-none">
-                <div className="text-[10px] font-bold text-sky-blue truncate">{photo.title}</div>
+              <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-neutral-950/95 via-neutral-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 text-white select-none pointer-events-none">
+                <div className="text-xs font-bold text-sky-400 truncate">{photo.title}</div>
                 <div className="text-[9px] text-neutral-300 font-mono flex items-center gap-0.5 truncate mt-0.5">
-                  <MapPin className="w-2.5 h-2.5" />
+                  <MapPin className="w-2.5 h-2.5 text-sky-400" />
                   {photo.location}
                 </div>
               </div>
